@@ -1,0 +1,9 @@
+filetype
+rapid-layout
+numpy
+opencv_python_headless
+pdfminer.six
+Pillow
+tqdm
+pymupdf
+camelot-py
