@@ -8,7 +8,7 @@
 
 ## 🛠️ 整体框架
 
-以下为整个项目依赖包，均为RapidAI出品。
+以下为整体框架依赖包，均为RapidAI出品。
 
 - [rapid_orientation](https://github.com/RapidAI/RapidStructure/blob/main/docs/README_Orientation.md)
 - [rapid_layout](https://github.com/RapidAI/RapidLayout)
