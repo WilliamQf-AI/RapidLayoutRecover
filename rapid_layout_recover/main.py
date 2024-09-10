@@ -42,8 +42,7 @@ class RapidLayoutRecover:
                 img = self.convert_img(page)
 
                 # 版面分析 ([x, 4],  ['text', 'text', 'text', 'header'])
-                layout_bboxes, layout_cls_names, _ = self.layout(img)
-                layout_bboxes = layout_bboxes.cpu().numpy()
+                layout_bboxes, _, layout_cls_names, _ = self.layout(img)
 
                 # # 可视化当前页
                 # import copy
