@@ -7,7 +7,7 @@ from rapid_layout_recover import RapidLayoutRecover
 
 pdf_parser = RapidLayoutRecover()
 
-pdf_path = "tests/test_files/direct_extract/single_column.pdf"
+pdf_path = "tests/test_files/scan_pdf/B0702罗马十二帝王传Page3_5.pdf"
 
 result = pdf_parser(pdf_path)
 

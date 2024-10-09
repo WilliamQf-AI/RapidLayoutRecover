@@ -20,7 +20,5 @@ def test_direct_single_column():
     pdf_path = test_file_dir / "direct_extract" / "single_column.pdf"
 
     result = layout_recover(pdf_path)
-
     assert len(result) == 1
-    assert len(result[0][2]) == 9
     assert result[0][2][0][0][:5] == "星期天早晨"

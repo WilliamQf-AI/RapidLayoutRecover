@@ -2,7 +2,7 @@
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
 from pathlib import Path
-from typing import List, Union
+from typing import List, Tuple, Union
 
 import cv2
 import fitz
@@ -10,8 +10,9 @@ import numpy as np
 from rapid_layout import RapidLayout
 from tqdm import tqdm
 
-from .direct_extract import PDFExtract
+from .direct_extract import DirectExtract
 from .layout_recover import LayoutRecover
+from .ocr_extract import OCRExtract
 from .utils import which_type
 
 
@@ -19,7 +20,8 @@ class RapidLayoutRecover:
     def __init__(self, dpi: int = 96):
         self.dpi = dpi
         self.layout = RapidLayout()
-        self.pdf_extracter = PDFExtract()
+        self.pdf_extracter = DirectExtract()
+        self.ocr_extracter = OCRExtract()
         self.layout_recover = LayoutRecover()
 
     def __call__(self, pdf_path: Union[str, Path]):
@@ -44,7 +46,7 @@ class RapidLayoutRecover:
                 # 版面分析 ([x, 4],  ['text', 'text', 'text', 'header'])
                 layout_bboxes, _, layout_cls_names, _ = self.layout(img)
 
-                # # 可视化当前页
+                # 可视化当前页
                 # import copy
 
                 # tmp_img = copy.deepcopy(img)
@@ -71,12 +73,11 @@ class RapidLayoutRecover:
                     img_width = img.shape[1]
                     txt_boxes, txts = self.run_direct_extract(i, img_width)
                 else:
-                    # TODO
-                    txt_boxes, txts = self.run_ocr_extract(page)
+                    txt_boxes, txts = self.run_ocr_extract(img)
 
                 # 逐页合并版面分析和文本结果
                 img_h, img_w = img.shape[:2]
-                final_bboxes, final_txts = self.merge_layout_txts(
+                final_bboxes, final_txts = self.layout_recover(
                     img_h,
                     img_w,
                     layout_bboxes,
@@ -98,26 +99,14 @@ class RapidLayoutRecover:
     def is_extract(self, page) -> bool:
         return len(page.get_text()) > 100
 
-    def run_direct_extract(self, page_num: int, img_width: int):
+    def run_direct_extract(
+        self, page_num: int, img_width: int
+    ) -> Tuple[np.ndarray, List[Tuple[str, float]]]:
         txt_boxes, txts = self.pdf_extracter.extract_page_text(page_num, img_width)
         return txt_boxes, txts
 
-    def run_ocr_extract(self, page):
-        return None
-
-    def merge_layout_txts(
-        self,
-        img_h: int,
-        img_w: int,
-        layout_bboxes: np.ndarray,
-        layout_cls_names: List[str],
-        txt_boxes: np.ndarray,
-        txts: List[str],
-        ratio,
-    ):
-        txt_boxes, txts = self.layout_recover(
-            img_h, img_w, layout_bboxes, layout_cls_names, txt_boxes, txts, ratio
-        )
+    def run_ocr_extract(self, img: np.ndarray):
+        txt_boxes, txts = self.ocr_extracter(img)
         return txt_boxes, txts
 
 
