@@ -1,4 +1,6 @@
 # -*- encoding: utf-8 -*-
+# @Author: SWHL
+# @Contact: liekkaskono@163.com
 import copy
 import re
 import string
@@ -14,7 +16,7 @@ from pdfminer.layout import LTPage, LTTextBoxHorizontal, LTTextLineHorizontal
 from shapely.geometry import MultiPoint, Polygon
 
 
-class PDFExtract:
+class DirectExtract:
     def __init__(self):
         self.ratio = None
 

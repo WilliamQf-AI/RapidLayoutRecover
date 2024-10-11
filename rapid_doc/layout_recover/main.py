@@ -3,7 +3,7 @@
 # @Contact: liekkaskono@163.com
 import copy
 import string
-from typing import List
+from typing import List, Optional
 
 import numpy as np
 import shapely
@@ -22,9 +22,10 @@ class LayoutRecover:
         layout_cls_names: List[str],
         ocr_boxes: np.ndarray,
         ocr_rec_res: List[str],
-        ratio,
+        ratio: Optional[float] = None,
     ):
-        self.ratio = ratio
+        if ratio is not None:
+            self.ratio = ratio
 
         # 版面分析和段落合并操作
         (

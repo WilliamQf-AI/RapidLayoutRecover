@@ -3,11 +3,12 @@
 # @Contact: liekkaskono@163.com
 from pathlib import Path
 
-from rapid_layout_recover import RapidLayoutRecover
+from rapid_doc import RapidLayoutRecover
 
 pdf_parser = RapidLayoutRecover()
 
-pdf_path = "tests/test_files/direct_extract/single_column.pdf"
+pdf_path = "tests/test_files/scan_pdf/B0702罗马十二帝王传Page3_5.pdf"
+# pdf_path = "tests/test_files/direct_extract/single_column.pdf"
 
 result = pdf_parser(pdf_path)
 
