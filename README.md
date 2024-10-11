@@ -48,7 +48,7 @@ python demo.py
 ⚠️注意：之所以提取结果没有分段，是因为版面分析模型没有段落检测功能。现有开源的所有版面分析模型都没有段落检测功能，这个后续会考虑自己训练一个版面分析模型来优化这里。
 
 <div aligin="left">
-  <img src="https://github.com/RapidAI/RapidLayoutRecover/releases/download/v0.0.0/demo.png">
+  <img src="https://github.com/RapidAI/RapidDoc/releases/download/v0.0.0/demo.png">
 
 </div>
 
@@ -56,8 +56,8 @@ python demo.py
 
 <a href="https://star-history.com/#RapidAI/RapidLayoutRecover&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=RapidAI/RapidLayoutRecover&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=RapidAI/RapidLayoutRecover&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=RapidAI/RapidLayoutRecover&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=RapidAI/RapidDoc&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=RapidAI/RapidDoc&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=RapidAI/RapidDoc&type=Date" />
  </picture>
 </a>
