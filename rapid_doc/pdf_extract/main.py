@@ -2,11 +2,11 @@
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
 import copy
-import re
 import string
 from collections import Counter
 from typing import List, Optional
 
+import camelot
 import cv2
 import fitz
 import numpy as np
@@ -15,19 +15,19 @@ from pdfminer.high_level import extract_pages
 from pdfminer.layout import LTPage, LTTextBoxHorizontal, LTTextLineHorizontal
 from shapely.geometry import MultiPoint, Polygon
 
+from ..utils import is_contain_continous_str, only_contain_str
 
-class DirectExtract:
+
+class PDFExtract:
     def __init__(self):
+        self.pdf_path = None
+        self.pages = None
         self.ratio = None
 
-        self.texts = []
-        self.table_content = []
-        self.pages = None
-
-    def extract_all_pages(self, pdf_path):
+    def extract_all_pages(self, pdf_path: str):
         self.pages = list(extract_pages(pdf_path))
 
-    def read_pdf(self) -> List:
+    def read_pdf(self, pdf_path) -> List:
         def convert_img(page):
             pix = page.get_pixmap(dpi=200)
             img = np.frombuffer(pix.samples, dtype=np.uint8)
@@ -35,12 +35,12 @@ class DirectExtract:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             return img
 
-        with fitz.open(stream=self.pdf_path) as pdfer:
+        with fitz.open(pdf_path) as pdfer:
             pdf_img_list = list(map(convert_img, pdfer))
         return pdf_img_list
 
-    def get_page_count(self):
-        with fitz.open(stream=self.pdf_path) as pdfer:
+    def get_page_count(self, pdf_path):
+        with fitz.open(pdf_path) as pdfer:
             return pdfer.page_count
 
     def merge_ocr_direct(self, img, page_num, dt_boxes, rec_res):
@@ -89,8 +89,7 @@ class DirectExtract:
         if not isinstance(page, LTPage):
             return np.array([])
 
-        page_height = page.height
-        texts, boxes = [], []
+        boxes, self.texts = [], []
         for text_box_h in page:
             if not isinstance(text_box_h, LTTextBoxHorizontal):
                 continue
@@ -99,24 +98,16 @@ class DirectExtract:
                 if not isinstance(text_box_h_l, LTTextLineHorizontal):
                     continue
 
-                # 注意这里bbox的返回值是left,bottom,right,top
-                left, bottom, right, top = text_box_h_l.bbox
-
-                # 注意 bottom和top是距离页面底部的坐标值，
-                # 需要用当前页面高度减当前坐标值，才是以左上角为原点的坐标
-                bottom = page_height - bottom
-                top = page_height - top
-                text = text_box_h_l.get_text()
-
-                x0, y0 = left, top
-                x1, y1 = right, bottom
+                x0, y0, x1, y1 = text_box_h_l.bbox
+                y0 = page.height - y0
+                y1 = page.height - y1
 
                 text = text_box_h_l.get_text()
                 boxes.append([[x0, y0], [x1, y0], [x1, y1], [x0, y1]])
-                texts.append((text.strip(), 1.0))
+                self.texts.append(text)
 
         self.ratio = ori_img_width / page.width
-        return np.array(boxes), texts
+        return np.array(boxes)
 
     def get_matched_boxes_rec(self, dt_boxes, direct_boxes, rec_res):
         invalid_symbol_pattern = r'[$#&‘’”“(){}\[\]>?%,-./*!="+:&@]{3,}'
@@ -162,8 +153,7 @@ class DirectExtract:
             ):
                 # SatELLItE
                 break
-
-            if (
+            elif (
                 first_ele.islower()
                 and last_ele.islower()
                 and not only_contain_str(middle_eles, string.ascii_lowercase)
@@ -259,6 +249,7 @@ class DirectExtract:
             line_scale=40,
         )
         table_bbox = []
+        self.table_content = []
         for one_table in tables:
             pdf_height = one_table._image[0].shape[0] / (300 / 72)
             x0, y0, x1, y1 = one_table._bbox
@@ -334,24 +325,3 @@ class DirectExtract:
             except shapely.geos.TopologicalError:
                 print("shapely.geos.TopologicalError occured, iou set to 0")
         return iou
-
-
-def is_contain_continous_str(content: str, pattern: str) -> bool:
-    """是否存在匹配满足pattern的连续字符"""
-    match_result = re.findall(pattern, content)
-    if match_result:
-        return True
-    return False
-
-
-def only_contain_str(src_text, given_str_list=None):
-    """是否只包含given_str_list中字符
-
-    :param src_text (str): 给定文本
-    :param given_str_list (list): , defaults to None
-    :return: bool
-    """
-    for value in src_text:
-        if value not in given_str_list:
-            return False
-    return True

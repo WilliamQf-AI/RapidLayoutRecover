@@ -10,17 +10,17 @@ import numpy as np
 from rapid_layout import RapidLayout
 from tqdm import tqdm
 
-from .direct_extract import DirectExtract
 from .layout_recover import LayoutRecover
 from .ocr_extract import OCRExtract
+from .pdf_extract import PDFExtract
 from .utils import which_type
 
 
-class RapidLayoutRecover:
+class RapidDoc:
     def __init__(self, dpi: int = 96):
         self.dpi = dpi
         self.layout = RapidLayout()
-        self.pdf_extracter = DirectExtract()
+        self.pdf_extracter = PDFExtract()
         self.ocr_extracter = OCRExtract()
         self.layout_recover = LayoutRecover()
 
@@ -31,10 +31,10 @@ class RapidLayoutRecover:
         try:
             file_type = which_type(pdf_path)
         except (FileExistsError, TypeError) as exc:
-            raise RapidLayoutRecoverError("The input content is empty.") from exc
+            raise RapidDocError("The input content is empty.") from exc
 
         if file_type != "pdf":
-            raise RapidLayoutRecoverError("The file type is not PDF format.")
+            raise RapidDocError("The file type is not PDF format.")
 
         self.pdf_extracter.extract_all_pages(pdf_path)
 
@@ -110,5 +110,5 @@ class RapidLayoutRecover:
         return txt_boxes, txts
 
 
-class RapidLayoutRecoverError(Exception):
+class RapidDocError(Exception):
     pass

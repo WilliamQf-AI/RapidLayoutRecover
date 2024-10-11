@@ -9,9 +9,9 @@ root_dir = cur_dir.parent
 
 sys.path.append(str(root_dir))
 
-from rapid_doc import RapidLayoutRecover
+from rapid_doc import RapidDoc
 
-layout_recover = RapidLayoutRecover()
+layout_recover = RapidDoc()
 
 test_file_dir = cur_dir / "test_files"
 

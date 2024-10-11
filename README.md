@@ -15,7 +15,7 @@
 - [rapid_table](https://github.com/RapidAI/RapidTable)
 - [rapid_latex_ocr](https://github.com/RapidAI/RapidLatexOCR)
 - [rapidocr_onnxruntime](https://github.com/RapidAI/RapidOCR)
-- [rapidocr_layout_recover](https://github.com/RapidAI/RapidLayoutRecover)
+- [rapidocr_layout_recover](https://github.com/RapidAI/RapidDoc)
 
 ```mermaid
 flowchart TD
@@ -38,8 +38,8 @@ pip install -r requirements.txt
 ## 🚀 运行Demo
 
 ```bash
-git clone https://github.com/RapidAI/RapidLayoutRecover.git
-cd RapidLayoutRecover
+git clone https://github.com/RapidAI/RapidDoc.git
+cd RapidDoc
 python demo.py
 ```
 
@@ -54,7 +54,7 @@ python demo.py
 
 ## ⭐ Star History
 
-<a href="https://star-history.com/#RapidAI/RapidLayoutRecover&Date">
+<a href="https://star-history.com/#RapidAI/RapidDoc&Date">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=RapidAI/RapidDoc&type=Date&theme=dark" />
    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=RapidAI/RapidDoc&type=Date" />
