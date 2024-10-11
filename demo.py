@@ -3,7 +3,7 @@
 # @Contact: liekkaskono@163.com
 from pathlib import Path
 
-from rapid_layout_recover import RapidLayoutRecover
+from rapid_doc import RapidLayoutRecover
 
 pdf_parser = RapidLayoutRecover()
 

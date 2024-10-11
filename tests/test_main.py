@@ -9,7 +9,7 @@ root_dir = cur_dir.parent
 
 sys.path.append(str(root_dir))
 
-from rapid_layout_recover import RapidLayoutRecover
+from rapid_doc import RapidLayoutRecover
 
 layout_recover = RapidLayoutRecover()
 
