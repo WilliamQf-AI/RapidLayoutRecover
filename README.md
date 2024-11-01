@@ -29,7 +29,7 @@
 
 - [rapid_orientation](https://github.com/RapidAI/RapidStructure/blob/main/docs/README_Orientation.md)
 - [rapid_layout](https://github.com/RapidAI/RapidLayout)
-- [rapid_table](https://github.com/RapidAI/RapidTable)
+- [rapid_table](https://github.com/RapidAI/RapidTable) / [TableStructureRec](https://github.com/RapidAI/TableStructureRec)
 - [rapid_latex_ocr](https://github.com/RapidAI/RapidLatexOCR)
 - [rapidocr_onnxruntime](https://github.com/RapidAI/RapidOCR)
 - [rapidocr_layout_recover](https://github.com/RapidAI/RapidDoc)
